@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id "org.openapi.generator" version "6.2.1"
+    id "io.spring.dependency-management" version "1.1.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = 'io.izuno.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+[compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:all,-options,-processing,-path"]
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:3.0.2"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.8'
+    implementation 'io.swagger.parser.v3:swagger-parser:2.1.10'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'openapi-generator'
+java.sourceCompatibility = JavaVersion.VERSION_17
+sourceSets.main.java.srcDirs = ['src/main/java', 'src/gen/java']
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+openApiGenerate {
+    inputSpec = "$rootDir/openapi.yaml"
+    outputDir = "$rootDir/build/generate-source"
+    generatorName = 'spring'
+    library = 'spring-boot'
+    apiPackage = 'com.example.api.handle'
+    modelPackage = 'com.example.api.model'
+    invokerPackage = 'com.example.api.handler'
+
+    configOptions = [
+            sourceFolder: 'src/main/java',
+            dateLibrary: 'java8-localdatetime',
+            interfaceOnly: 'true',
+            skipDefaultInterface: 'true',
+            serializableModel: 'true',
+            useSpringBoot3: 'true'
+    ]
+}
+
+openApiValidate {
+    inputSpec = "$rootDir/openapi.yaml"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
