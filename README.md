@@ -1,6 +1,6 @@
-# openapi-client-generator-example
+# openapi-generator-example
 
-OpenAPI の Spec からクライアントを生成するサンプル
+OpenAPI Generator を使ってサーバー/クライアントコードを生成するためのサンプル
 
 - [OpenAPI Generator](https://openapi-generator.tech/)
   - [Documentation for the java Generator](https://openapi-generator.tech/docs/generators/java/)
