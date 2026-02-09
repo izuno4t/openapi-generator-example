@@ -30,6 +30,11 @@ tags:
   externalDocs:
     description: Find out more about our store
     url: http://swagger.io
+- name: example
+  description: Operations about foo
+  externalDocs:
+    description: example
+    url: http://swagger.io
 paths:
   /pet:
     put:
@@ -593,6 +598,29 @@ paths:
         404:
           description: User not found
           content: {}
+  /foo:
+    post:
+      tags:
+      - example
+      summary: multipart example
+      description: multipart example
+      operationId: foo
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                foo:
+                  type: string
+                bar:
+                  type: integer
+                baz: # ファイル
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: ok
 components:
   schemas:
     Order:

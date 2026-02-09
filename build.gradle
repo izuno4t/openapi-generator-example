@@ -50,8 +50,10 @@ task javadocJar(type: Jar, dependsOn: 'javadoc') {
 openApiGenerate {
     inputSpec = "$rootDir/openapi.yaml"
     outputDir = "$rootDir/build/generate-source"
-    generatorName = 'spring'
-    library = 'spring-boot'
+    // generatorName = 'spring'
+    // library = 'spring-boot'
+    generatorName = 'java'
+    library = 'retrofit2'
     apiPackage = 'com.example.api.handle'
     modelPackage = 'com.example.api.model'
     invokerPackage = 'com.example.api.handler'
@@ -59,7 +61,7 @@ openApiGenerate {
     configOptions = [
             sourceFolder: 'src/main/java',
             dateLibrary: 'java8-localdatetime',
-            interfaceOnly: 'true',
+            // interfaceOnly: 'true',
             skipDefaultInterface: 'true',
             serializableModel: 'true',
             useSpringBoot3: 'true'
